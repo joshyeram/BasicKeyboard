@@ -1,4 +1,4 @@
-﻿# BasicKeyboard
+﻿# BasicKeyboard (BK or burger king)
 This project was inspired by my inability to get QMK's custom matrix scan working. So, I made a simple version that uses only Arduino-based libraries. 
 
 # Debug
