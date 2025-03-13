@@ -12,3 +12,10 @@ LayerKey::LayerKey(int layer)
     keyCode = layer;
     isLayer = true;
 }
+
+SpecialKey::SpecialKey(int code)
+{
+    keyCode = code;
+    isLayer = false;
+    isSpecial = true;
+}

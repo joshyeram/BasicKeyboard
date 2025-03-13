@@ -3,6 +3,7 @@
 #include "Keyboard.h"
 #include "Key.h"
 
+// Layers
 #define DEF   0x00 // done 
 #define NUM   0x01 // done
 #define SYM   0x02 // done
@@ -10,7 +11,9 @@
 #define FUN   0x04 // done
 #define MOS   0x05
 
-#define MAX_PER_LAYER 4
+// Special Keys
+#define RAN   0x01  
+#define HTS   0x02
 
 Key layers[][48] = {// Default
                     {Key(KEY_ESC),        Key(KEY_q),        Key(KEY_w),    Key(KEY_e),    Key(KEY_r),     Key(KEY_t),    Key(KEY_y),    Key(KEY_u),    Key(KEY_i),     Key(KEY_o),    Key(KEY_p),         Key(KEY_BACKSPACE),
@@ -35,14 +38,16 @@ Key layers[][48] = {// Default
                      Key(KEY_TAB),        Key(KEY_NONE),     Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE), Key(KEY_LA),   Key(KEY_DNA),   Key(KEY_RA),   Key(KEY_NONE),      Key(KEY_RETURN),
                      Key(KEY_LEFT_SHIFT), Key(KEY_NONE),     Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE), Key(KEY_DNA),   Key(KEY_NONE), Key(KEY_NONE),      Key(KEY_NONE),
                      Key(KEY_LEFT_CTRL),  Key(KEY_LEFT_ALT), Key(KEY_NONE), Key(KEY_NONE), Key(KEY_SPACE), Key(KEY_NONE), Key(KEY_NONE), LayerKey(ARR), Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE),      Key(KEY_RETURN)},
-
+                    
+                    // FUNC
                     {Key(KEY_ESC),        Key(KEY_F1),       Key(KEY_F2),   Key(KEY_F3),   Key(KEY_F4),    Key(KEY_F5),   Key(KEY_F6),   Key(KEY_F7),   Key(KEY_F8),    Key(KEY_F9),   Key(KEY_F10),       Key(KEY_DELETE),
                      Key(KEY_TAB),        Key(KEY_F11),      Key(KEY_F12),  Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE),      Key(KEY_RETURN),
                      Key(KEY_LEFT_SHIFT), Key(KEY_NONE),     Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE),      Key(KEY_NONE),
                      Key(KEY_LEFT_CTRL),  Key(KEY_LEFT_ALT), Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),  LayerKey(FUN), Key(KEY_NONE),      Key(KEY_RETURN)},
-
-                    {Key(KEY_ESC),        Key(KEY_F1),       Key(KEY_F2),   Key(KEY_F3),   Key(KEY_F4),    Key(KEY_F5),   Key(KEY_F6),   Key(KEY_F7),   Key(KEY_F8),    Key(KEY_F9),   Key(KEY_F10),       Key(KEY_DELETE),
-                     Key(KEY_TAB),        Key(KEY_F11),      Key(KEY_F12),  Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE),      Key(KEY_RETURN),
+                    
+                    // MOUS
+                    {Key(KEY_ESC),        Key(KEY_NONE),     Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE),      SpecialKey(RAN),
+                     Key(KEY_TAB),        Key(KEY_NONE),    Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE),      SpecialKey(HTS),
                      Key(KEY_LEFT_SHIFT), Key(KEY_NONE),     Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE),      Key(KEY_NONE),
                      Key(KEY_LEFT_CTRL),  Key(KEY_LEFT_ALT), Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), LayerKey(MOS), Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE),      Key(KEY_RETURN)},
                     };

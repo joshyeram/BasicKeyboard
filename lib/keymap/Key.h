@@ -111,10 +111,17 @@ class Key
         
         int keyCode;
         bool isLayer;
+        bool isSpecial;
 };
 
 class LayerKey: public Key
 {
     public:
         LayerKey(int layer); 
+};
+
+class SpecialKey: public Key
+{
+    public:
+        SpecialKey(int layer); 
 };
