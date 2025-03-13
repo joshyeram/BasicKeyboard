@@ -1,7 +1,5 @@
 ﻿# BasicKeyboard
-Still in progress.
-
-Maybe check back in a week or two.
+This project was inspired by my inability to get QMK's custom matrix scan working. So, I made a simple version that uses only Arduino-based libraries. 
 
 # Debug
 Here is what a debug log looks like:
