@@ -4,6 +4,7 @@ Still in progress.
 Maybe check back in a week or two.
 
 # Debug
+Here is what a debug log looks like:
 ```
 Microseconds: 346
 Hz: 2890.00
@@ -24,3 +25,10 @@ Raw Analog:
   43   47   30   34   24   30   28   46   23   33   18   26
   11   20   13   21    7   16    9   18   15   23   25   46
 ```
+It prints out:
+1. Microsecond time it took for that loop
+2. Hz (calculated from the microsecond count)
+3. Current layer (int)
+4. Post Matrix (boolean)
+5. Debounce Matrix (int)
+6. Raw Analog Matrix (int) 
