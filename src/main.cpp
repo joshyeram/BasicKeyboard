@@ -4,7 +4,7 @@
 
 #define DEBOUNCE 12
 #define KEY_COUNT 48
-#define DEBUG false
+#define DEBUG true
 #define DEBUG_STOP_PRESSES false
 
 boolean* prevMatrix;
@@ -57,17 +57,17 @@ void setup()
 
 void loop() 
 {
-  unsigned long startTime = micros();
+  unsigned long startTime = micros();       // Start microsecond timer only used for debug
 
-  boolean* currMatrix = scanHandler();
+  boolean* currMatrix = scanHandler();      // 1. Scan matrix
 
-  debounceHandler(prevMatrix, currMatrix);
+  debounceHandler(prevMatrix, currMatrix);  // 2. Process debounce keys for pressed keys
 
-  layerHandler(prevMatrix, currMatrix); 
+  layerHandler(prevMatrix, currMatrix);     // 3. Shift layers
   
-  keyPressHandler(prevMatrix , currMatrix);
+  keyPressHandler(prevMatrix , currMatrix); // 4. Process keys
 
-  delete prevMatrix;
+  delete prevMatrix;                        // Make previous boolean matrix current and loop
   prevMatrix = currMatrix;
 
   if(DEBUG)
@@ -95,12 +95,12 @@ boolean* scanHandler()
 {
   for(int key = 0; key < 16; key++)
   {
-    digitalWrite(D10, bitRead(key,0));
+    digitalWrite(D10, bitRead(key,0)); // Set selector pins
     digitalWrite(D9, bitRead(key,1));
     digitalWrite(D7, bitRead(key,2));
     digitalWrite(D8, bitRead(key,3));
 
-    rawAnalog[key]      = analogRead(A0);
+    rawAnalog[key]      = analogRead(A0); // Read values from switches
     rawAnalog[key + 16] = analogRead(A1);
     rawAnalog[key + 32] = analogRead(A2);
   }
@@ -109,8 +109,8 @@ boolean* scanHandler()
 
   for(int i = 0; i < KEY_COUNT; i++)
   {
-    if (rawAnalog[i] > analogCutoffs[i])
-    {
+    if (rawAnalog[i] > analogCutoffs[i]) // Insert HE switch logic/SOCD logic here
+    { 
       currMatrix[i] = true;
     }
     else
@@ -131,13 +131,13 @@ void debounceHandler(boolean *prev, boolean *curr)
     }
     if(prev[i] && !curr[i])
     {
-      if(debounceLast[i] > DEBOUNCE)
+      if(debounceLast[i] > DEBOUNCE) 
       {
         debounceLast[i] = 0;
       }
       else
       {
-        curr[i] = true;
+        curr[i] = true; // Hold the key until debounce is true
       }
     }
   }
@@ -147,7 +147,7 @@ void layerHandler(boolean *prev, boolean *curr)
 {
   for(int key = 0; key < KEY_COUNT; key++)
   { 
-    if(!layers[currentLayer][key].isLayer || layers[currentLayer][key].keyCode == 0)
+    if(!layers[currentLayer][key].isLayer || layers[currentLayer][key].keyCode == 0) // Check to see if you need to process a layer key
     {
       continue;
     }
@@ -183,7 +183,7 @@ void keyPressHandler(boolean* prev , boolean* curr)
 {
   for(int key = 0; key < KEY_COUNT; key++)
   {
-    if(layers[currentLayer][key].isLayer || layers[currentLayer][key].keyCode == 0)
+    if(layers[currentLayer][key].isLayer || layers[currentLayer][key].keyCode == 0) // Check to see if you need to process this key
     {
       continue;
     }
@@ -197,7 +197,7 @@ void keyPressHandler(boolean* prev , boolean* curr)
       }
       if(layers[currentLayer][key].isSpecial)
       {
-        specialKeyHandler(layers[currentLayer][key].keyCode);
+        specialKeyHandler(layers[currentLayer][key].keyCode); // If this key is a Special key, do not let it go as a normal key
       }
       else if(!DEBUG_STOP_PRESSES)
       {
@@ -225,7 +225,7 @@ void keyPressHandler(boolean* prev , boolean* curr)
     }
     else if((prev[key] && curr[key]) || (!prev[key] && !curr[key]))
     {
-      continue;
+      continue; // We should only act if the key event state changes (on the loop that presses or releases and nothing in between)
     }
   }
 }
@@ -236,12 +236,12 @@ void specialKeyHandler(int keyCode)
   double r = 0;
   switch(keyCode)
   {
-    case RAN:
+    case RAN: // generate a random float between 0 (mayve inclusive?) and 1 (exclusive)
       r = random(1000000)/1000000.0;
-      Keyboard.print(r,6);            // generate a random float between 0 (mayve inclusive?) and 1 (exclusive)
+      Keyboard.print(r,6);            
       break;
-    case HTS:
-      if(random(3) == 1)              // flip a coin
+    case HTS: // flip a coin
+      if(random(3) == 1)              
       {
         Keyboard.write('H');
       }
@@ -268,7 +268,6 @@ void clearMatrix(int* matrix)
     matrix[i] = 0;
   }
 }
-
 
 void printMatrix(boolean* matrix)
 {
