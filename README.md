@@ -13,6 +13,9 @@ As of right now, there are 4 major files:
 2. Layer Key: a hold to press layer key
 3. Special Key: do whatever you want key
 
+# Note:
+I know most of us are probably developing our personal implementations for our keyboards. I just wanted to document my interpretation so that others can see and fit it to their needs.
+
 # Debug
 Here is what a debug log looks like:
 ```
