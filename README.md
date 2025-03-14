@@ -1,6 +1,18 @@
 ﻿# BasicKeyboard (BK or burger king)
 This project was inspired by my inability to get QMK's custom matrix scan working. So, I made a simple version that uses only Arduino-based libraries. 
 
+# How is it structured?
+As of right now, there are 4 major files:
+1. src/main.cpp: This is where the majority of the keyboard functions live
+2. src/Keymap.h: This is where you define your keymaps, layers, and analog cutoffs 
+3. lib/Key/Key.h: This is where additional keycodes live
+4. lib/Key/Key.cpp: This is where the constructors of the different key types live
+
+# Different types of keys
+1. Key: a normal key
+2. Layer Key: a hold to press layer key
+3. Special Key: do whatever you want key
+
 # Debug
 Here is what a debug log looks like:
 ```
