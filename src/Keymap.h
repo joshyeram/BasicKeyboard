@@ -8,7 +8,8 @@
 #define SYM   0x02 // done
 #define ARR   0x03 // done
 #define FUN   0x04 // done
-#define MOS   0x05
+#define MOS   0x05 // done
+#define MED   0x06
 
 // Special Keys
 #define RAN   0x01  
@@ -20,11 +21,18 @@
 #define Mos1  0x07
 #define Mos2  0x08
 
+#define VolU  0x09
+#define VolD  0x0A
+#define PlPa  0x0B
+#define NEXT  0x0C
+#define PREV  0x0D
+
+
 Key layers[][48] = {// Default
                     {Key(KEY_ESC),        Key(KEY_q),        Key(KEY_w),    Key(KEY_e),    Key(KEY_r),     Key(KEY_t),    Key(KEY_y),    Key(KEY_u),        Key(KEY_i),      Key(KEY_o),       Key(KEY_p),         Key(KEY_BACKSPACE),
                      Key(KEY_TAB),        Key(KEY_a),        Key(KEY_s),    Key(KEY_d),    Key(KEY_f),     Key(KEY_g),    Key(KEY_h),    Key(KEY_j),        Key(KEY_k),      Key(KEY_l),       Key(KEY_SMCOL),     Key(KEY_SQU),
                      Key(KEY_LEFT_SHIFT), Key(KEY_z),        Key(KEY_x),    Key(KEY_c),    Key(KEY_v),     Key(KEY_b),    Key(KEY_n),    Key(KEY_m),        Key(KEY_COM),    Key(KEY_DOT),     Key(KEY_FS),        Key(KEY_RIGHT_SHIFT),
-                     Key(KEY_LEFT_CTRL),  Key(KEY_LEFT_ALT), Key(KEY_NONE), LayerKey(SYM), Key(KEY_SPACE), Key(KEY_NONE), LayerKey(MOS), LayerKey(ARR),     LayerKey(NUM),   LayerKey(FUN),    Key(KEY_RIGHT_GUI), Key(KEY_RETURN)},
+                     Key(KEY_LEFT_CTRL),  Key(KEY_LEFT_ALT), LayerKey(MED), LayerKey(SYM), Key(KEY_SPACE), Key(KEY_NONE), LayerKey(MOS), LayerKey(ARR),     LayerKey(NUM),   LayerKey(FUN),    Key(KEY_RIGHT_GUI), Key(KEY_RETURN)},
                             
                     // NUM      
                     {Key(KEY_ESC),        Key(KEY_1),        Key(KEY_2),    Key(KEY_3),    Key(KEY_4),     Key(KEY_5),    Key(KEY_6),    Key(KEY_7),        Key(KEY_8),      Key(KEY_9),       Key(KEY_0),         Key(KEY_BACKSPACE),
@@ -52,9 +60,15 @@ Key layers[][48] = {// Default
                     
                     // MOUS
                     {Key(KEY_ESC),        Key(KEY_NONE),     Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE), SpecialKey(Mos1), SpecialKey(MosU), SpecialKey(Mos2), Key(KEY_NONE),      SpecialKey(RAN),
-                     Key(KEY_TAB),        Key(KEY_NONE),    Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE), SpecialKey(MosL), SpecialKey(MosD), SpecialKey(MosR), Key(KEY_NONE),      SpecialKey(HTS),
+                     Key(KEY_TAB),        Key(KEY_NONE),     Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE), SpecialKey(MosL), SpecialKey(MosD), SpecialKey(MosR), Key(KEY_NONE),      SpecialKey(HTS),
                      Key(KEY_LEFT_SHIFT), Key(KEY_NONE),     Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),    Key(KEY_NONE),    Key(KEY_NONE),    Key(KEY_NONE),      Key(KEY_NONE),
                      Key(KEY_LEFT_CTRL),  Key(KEY_LEFT_ALT), Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), LayerKey(MOS), Key(KEY_NONE),    Key(KEY_NONE),    Key(KEY_NONE),    Key(KEY_NONE),      Key(KEY_RETURN)},
+
+                    // MED
+                    {SpecialKey(VolU),    Key(KEY_NONE),     Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),    Key(KEY_NONE),    Key(KEY_NONE),    Key(KEY_NONE),      Key(KEY_NONE),
+                     SpecialKey(VolD),    Key(KEY_NONE),     Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),    Key(KEY_NONE),    Key(KEY_NONE),    Key(KEY_NONE),      Key(KEY_NONE),
+                     SpecialKey(PlPa),    Key(KEY_NONE),     Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),    Key(KEY_NONE),    Key(KEY_NONE),    Key(KEY_NONE),      Key(KEY_NONE),
+                     SpecialKey(PREV),    SpecialKey(NEXT),  LayerKey(MED), Key(KEY_NONE), Key(KEY_NONE),  Key(KEY_NONE), Key(KEY_NONE), Key(KEY_NONE),    Key(KEY_NONE),    Key(KEY_NONE),    Key(KEY_NONE),      Key(KEY_NONE)}
                     };
                                 
 short analogCutoffs[48]    = {1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000,

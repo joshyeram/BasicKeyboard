@@ -310,6 +310,21 @@ void specialKeyHandler(int keyCode, boolean press)
       case Mos2:
         Mouse.press(MOUSE_RIGHT);
         break;
+      case VolU:
+        Keyboard.consumerPress(KEY_VOLUME_INCREMENT);
+        break;
+      case VolD:
+        Keyboard.consumerPress(KEY_VOLUME_DECREMENT);
+        break;
+      case PlPa:
+        Keyboard.consumerPress(KEY_PLAY_PAUSE);
+        break;
+      case NEXT:
+        Keyboard.consumerPress(KEY_SCAN_NEXT);
+        break;
+      case PREV:
+        Keyboard.consumerPress(KEY_SCAN_PREVIOUS);
+        break;
     }
   }
   else
@@ -333,6 +348,13 @@ void specialKeyHandler(int keyCode, boolean press)
         break;
       case Mos2:
         Mouse.release(MOUSE_RIGHT);
+        break;
+      case VolU:
+      case VolD:
+      case PlPa:
+      case NEXT:
+      case PREV:
+        Keyboard.consumerRelease();
         break;
     }
   }
