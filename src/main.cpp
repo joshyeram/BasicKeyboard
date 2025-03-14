@@ -1,10 +1,12 @@
 #include <Arduino.h>
+#include <Mouse.h>
 #include <Keymap.h>
-#include "Keyboard.h"
+#include <Keyboard.h>
 
 #define DEBOUNCE 12
 #define KEY_COUNT 48
-#define DEBUG true
+#define MOUSE_DIS .4
+#define DEBUG false
 #define DEBUG_STOP_PRESSES false
 
 boolean* prevMatrix;
@@ -12,11 +14,16 @@ int* debounceLast;
 int* rawAnalog;
 int currentLayer;
 
+double mouseDistanceX;
+double mouseDistanceY;
+int mouseDirectionX;
+int mouseDirectionY;
+
 boolean* scanHandler();
 void debounceHandler(boolean* prev , boolean* curr);
 void layerHandler(boolean* prev , boolean* curr);
 void keyPressHandler(boolean* prev , boolean* curr);
-void specialKeyHandler(int keycode);
+void specialKeyHandler(int keycode, boolean press);
 
 void clearMatrix(boolean* matrix);
 void clearMatrix(int* matrix);
@@ -53,6 +60,14 @@ void setup()
   clearMatrix(prevMatrix);
   clearMatrix(debounceLast);
   clearMatrix(rawAnalog);
+
+  mouseDistanceX = 0.0;
+  mouseDistanceY = 0.0;
+  mouseDirectionX = 0;
+  mouseDirectionY = 0;
+
+  Mouse.begin();
+  Mouse.move(mouseDistanceX, mouseDistanceY, 0);
 }
 
 void loop() 
@@ -70,6 +85,21 @@ void loop()
   delete prevMatrix;                        // Make previous boolean matrix current and loop
   prevMatrix = currMatrix;
 
+  if (mouseDirectionX == 0) // up and down are stagnant
+  {
+    mouseDistanceX = 0.0;
+  }
+  if (mouseDirectionY == 0) // left and right are stagnant
+  {
+    mouseDistanceY = 0.0;
+  }
+  if(mouseDirectionX != 0 || mouseDirectionY != 0) // either have direction
+  {
+    mouseDistanceY += mouseDirectionY * MOUSE_DIS;
+    mouseDistanceX += mouseDirectionX * MOUSE_DIS;
+    Mouse.move(mouseDistanceX, mouseDistanceY, 0);
+  }
+
   if(DEBUG)
   {
     unsigned long end = micros() - startTime;
@@ -86,6 +116,16 @@ void loop()
     printMatrix(debounceLast);
     Serial.println("Raw Analog:");
     printMatrix(rawAnalog);
+    Serial.println("Mouse:");
+    Serial.print("X: ");
+    Serial.print(mouseDistanceX);
+    Serial.print(" Y: ");
+    Serial.println(mouseDistanceY);
+    Serial.println("Mouse Direction:");
+    Serial.print("X: ");
+    Serial.print(mouseDirectionX);
+    Serial.print(" Y: ");
+    Serial.println(mouseDirectionY);
     Serial.println();
     delay(1000);
   }
@@ -197,7 +237,7 @@ void keyPressHandler(boolean* prev , boolean* curr)
       }
       if(layers[currentLayer][key].isSpecial)
       {
-        specialKeyHandler(layers[currentLayer][key].keyCode); // If this key is a Special key, do not let it go as a normal key
+        specialKeyHandler(layers[currentLayer][key].keyCode, true); // If this key is a Special key, do not let it go as a normal key
       }
       else if(!DEBUG_STOP_PRESSES)
       {
@@ -215,7 +255,7 @@ void keyPressHandler(boolean* prev , boolean* curr)
 
       if(layers[currentLayer][key].isSpecial)
       {
-        // skip
+        specialKeyHandler(layers[currentLayer][key].keyCode, false); // If this key is a Special key, do not let it go as a normal key
       }
       else if(!DEBUG_STOP_PRESSES)
       {
@@ -230,26 +270,71 @@ void keyPressHandler(boolean* prev , boolean* curr)
   }
 }
 
-void specialKeyHandler(int keyCode)
+void specialKeyHandler(int keyCode, boolean press)
 {
   // If you want special keys, you can implent new ones here
   double r = 0;
-  switch(keyCode)
+  if(press)
   {
-    case RAN: // generate a random float between 0 (mayve inclusive?) and 1 (exclusive)
-      r = random(1000000)/1000000.0;
-      Keyboard.print(r,6);            
-      break;
-    case HTS: // flip a coin
-      if(random(3) == 1)              
-      {
-        Keyboard.write('H');
-      }
-      else
-      {
-        Keyboard.write('T');
-      }
-      break;
+    switch(keyCode)
+    {
+      case RAN: // generate a random float between 0 (mayve inclusive?) and 1 (exclusive)
+        r = random(1000000)/1000000.0;
+        Keyboard.print(r,6);            
+        break;
+      case HTS: // flip a coin
+        if(random(3) == 1)              
+        {
+          Keyboard.write('H');
+        }
+        else
+        {
+          Keyboard.write('T');
+        }
+        break;
+      case MosD:
+        mouseDirectionY++;
+        break;
+      case MosU:
+        mouseDirectionY--;
+        break;
+      case MosR:
+        mouseDirectionX++;
+        break;  
+      case MosL:
+        mouseDirectionX--;
+        break;
+      case Mos1:
+        Mouse.press(MOUSE_LEFT);
+        break;
+      case Mos2:
+        Mouse.press(MOUSE_RIGHT);
+        break;
+    }
+  }
+  else
+  {
+    switch(keyCode)
+    {
+      case MosD:
+        mouseDirectionY--;
+        break;
+      case MosU:
+        mouseDirectionY++;
+        break;
+      case MosR:
+        mouseDirectionX--;
+        break;  
+      case MosL:
+        mouseDirectionX++;
+        break;
+      case Mos1:
+        Mouse.release(MOUSE_LEFT);
+        break;
+      case Mos2:
+        Mouse.release(MOUSE_RIGHT);
+        break;
+    }
   }
 }
 
